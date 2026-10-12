@@ -924,7 +924,8 @@ export default function DashboardV2() {
 
     const isCompletedIntake = viewingIntakeForm.status === 'completed_intake';
     const isPendingIntake = viewingIntakeForm.status === 'pending_intake';
-    const showBothForms = isPendingIntake || isCompletedIntake;
+    const isSent = viewingIntakeForm.status === 'scheduled';
+    const showBothForms = isSent || isPendingIntake || isCompletedIntake;
 
     return (
       <div
