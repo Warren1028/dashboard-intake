@@ -584,11 +584,18 @@ export default function DashboardV2() {
   const refreshData = async () => {
     if (!lawyer?.id || !supabase) return;
     try {
-      const { data: screenings } = await supabase
-        .from('screening_submissions')
-        .select('*')
-        .eq('lawyer_id', lawyer.id)
-        .order('created_at', { ascending: false });
+      const [{ data: screenings }, { data: forms }] = await Promise.all([
+        supabase
+          .from('screening_submissions')
+          .select('*')
+          .eq('lawyer_id', lawyer.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('forms')
+          .select('*')
+          .eq('lawyer_id', lawyer.id)
+          .order('created_at', { ascending: false }),
+      ]);
       const processedScreenings = (screenings || []).map(s => ({
         ...s,
         name: s.client_name || s.contact_data?.name || s.contact_data?.contactName || 'Unknown',
@@ -600,11 +607,6 @@ export default function DashboardV2() {
       }));
       setRealPendingLeads(processedScreenings);
 
-      const { data: forms } = await supabase
-        .from('forms')
-        .select('*')
-        .eq('lawyer_id', lawyer.id)
-        .order('created_at', { ascending: false });
       const processedForms = (forms || []).map(f => {
         // Calculate days overdue
         const createdDate = new Date(f.created_at);
@@ -1035,7 +1037,7 @@ export default function DashboardV2() {
                           }}
                           onClick={() => window.open(`/intake-form?lead_id=${viewingIntakeForm.id}&edit=true`, '_blank')}
                         >
-                          ✏️ Edit Form
+                          Edit Form
                         </button>
                       )}
                     </div>
@@ -1084,7 +1086,7 @@ export default function DashboardV2() {
                   setShowDocumentGenerator(true);
                 }}
               >
-                📄 Generate Documents
+                Generate Documents
               </button>
               <button
                 className='nv-btn-view'
@@ -1159,7 +1161,7 @@ export default function DashboardV2() {
     <div className='nv-app'>
       <aside className='nv-sidebar'>
         <div className='nv-brand' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          {firm.images.logo ? <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '12px', maxWidth: '90%', objectFit: 'contain' }} /> : <div style={{ fontFamily: C.fontHeading, fontSize: 22, fontWeight: 600, color: C.teal, marginBottom: 16 }}>{firm.name}</div>}
+          {firm.images.logo ? <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '12px', maxWidth: '90%', objectFit: 'contain' }} /> : <div style={{ fontFamily: C.fontHeading, fontSize: 22, fontWeight: 600, color: '#ffffff', marginBottom: 16 }}>{firm.name}</div>}
           <div className='nv-brand-sub' style={{ textAlign: 'center' }}>Client Intake</div>
           <div className='nv-brand-rule' />
         </div>
@@ -1203,7 +1205,7 @@ export default function DashboardV2() {
       <div className='nv-main'>
         <header className='nv-topbar'>
           <div>
-            <p className='nv-topbar-eyebrow' style={{ color: '#fff' }}>{firm.name}</p>
+            <p className='nv-topbar-eyebrow'>{firm.name}</p>
             <h1 className='nv-topbar-title'>{pageTitle}</h1>
             <p className='nv-topbar-desc'>{pageDesc}</p>
           </div>
