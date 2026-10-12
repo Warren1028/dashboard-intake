@@ -506,6 +506,7 @@ export default function DashboardV2() {
     .filter(f => !completedSearch || (f.client_name || '').toLowerCase().includes(completedSearch.toLowerCase()))
     .filter(f => !completedPersonFilter || f.person_responsible === completedPersonFilter);
 
+  const submittedStatusForms = realForms.filter(f => f.status === 'submitted');
   const submittedForms = realForms
     .filter(f => f.status === 'completed_intake')
     .filter(f => !qualifiedLeadsSearch || (f.client_name || '').toLowerCase().includes(qualifiedLeadsSearch.toLowerCase()))
@@ -1816,7 +1817,7 @@ export default function DashboardV2() {
               <div className='nv-kanban-track'>
                 <section className='nv-kanban-col'>
                   <div className='nv-kanban-col-head'>
-                    <h3 className='nv-kanban-col-title'>Appointment Sent</h3>
+                    <h3 className='nv-kanban-col-title'>Pending</h3>
                     <span className='nv-kanban-col-count'>{openedForms.length}</span>
                   </div>
                   <div className='nv-kanban-col-body'>
@@ -1870,7 +1871,7 @@ export default function DashboardV2() {
 
                 <section className='nv-kanban-col'>
                   <div className='nv-kanban-col-head'>
-                    <h3 className='nv-kanban-col-title'>Scheduled</h3>
+                    <h3 className='nv-kanban-col-title'>Sent</h3>
                     <span className='nv-kanban-col-count'>{inProgressForms.length}</span>
                   </div>
                   <div className='nv-kanban-col-body'>
@@ -1924,7 +1925,7 @@ export default function DashboardV2() {
 
                 <section className='nv-kanban-col'>
                   <div className='nv-kanban-col-head'>
-                    <h3 className='nv-kanban-col-title'>Pending intake</h3>
+                    <h3 className='nv-kanban-col-title'>In Progress</h3>
                     <span className='nv-kanban-col-count'>{trulyCompletedForms.length}</span>
                   </div>
                   <div className='nv-kanban-col-body'>
@@ -1972,7 +1973,7 @@ export default function DashboardV2() {
 
                 <section className='nv-kanban-col'>
                   <div className='nv-kanban-col-head'>
-                    <h3 className='nv-kanban-col-title'>Completed Intake</h3>
+                    <h3 className='nv-kanban-col-title'>Completed</h3>
                     <span className='nv-kanban-col-count'>{submittedForms.length}</span>
                   </div>
                   <div className='nv-kanban-col-body'>
@@ -2057,6 +2058,42 @@ export default function DashboardV2() {
                               Populate
                             </button>
                           </div>
+                        </div>
+                      ))}
+                  </div>
+                </section>
+
+                <section className='nv-kanban-col'>
+                  <div className='nv-kanban-col-head'>
+                    <h3 className='nv-kanban-col-title'>Submitted</h3>
+                    <span className='nv-kanban-col-count'>{submittedStatusForms.length}</span>
+                  </div>
+                  <div className='nv-kanban-col-body'>
+                    {submittedStatusForms.length === 0
+                      ? <div className='nv-kanban-empty'>No submitted forms</div>
+                      : submittedStatusForms.map(form => (
+                        <div key={form.id} className='nv-panel-item'>
+                          <p className='nv-panel-item-name'>{form.name}</p>
+                          <p className='nv-panel-item-meta'>{form.client_email}</p>
+                          <p className='nv-panel-item-meta'>{form.personResponsible || 'Unassigned'}</p>
+                        </div>
+                      ))}
+                  </div>
+                </section>
+
+                <section className='nv-kanban-col'>
+                  <div className='nv-kanban-col-head'>
+                    <h3 className='nv-kanban-col-title'>Overdue</h3>
+                    <span className='nv-kanban-col-count'>{overdueForms.length}</span>
+                  </div>
+                  <div className='nv-kanban-col-body'>
+                    {overdueForms.length === 0
+                      ? <div className='nv-kanban-empty'>No overdue forms</div>
+                      : overdueForms.map(form => (
+                        <div key={form.id} className='nv-panel-item'>
+                          <p className='nv-panel-item-name'>{form.name}</p>
+                          <p className='nv-panel-item-meta'>{form.client_email}</p>
+                          <p className='nv-panel-item-meta'>{form.daysOverdue} days overdue</p>
                         </div>
                       ))}
                   </div>
