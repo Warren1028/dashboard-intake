@@ -627,6 +627,17 @@ export default function DashboardV2() {
     }
   };
 
+  const deleteLead = async (leadId: string) => {
+    if (!supabase) return;
+    if (!confirm('Delete this lead?')) return;
+    const { error } = await supabase.from('screening_submissions').delete().eq('id', leadId);
+    if (error) {
+      alert('Could not delete lead: ' + error.message);
+      return;
+    }
+    await refreshData();
+  };
+
   const handleQualifyLead = async (leadId: string) => {
     setLeadActionLoading(true);
     const personResponsible = viewingLead?.personResponsible || viewingLead?.person_responsible;
@@ -1281,8 +1292,7 @@ export default function DashboardV2() {
                           <button
                             type='button'
                             className='nv-btn-delete'
-                            onClick={() => console.log('Delete - disabled')}
-                            disabled
+                            onClick={() => deleteLead(lead.id)}
                             style={{ padding: '6px 12px', fontSize: '12px', whiteSpace: 'nowrap' }}
                           >
                             Delete
@@ -1494,8 +1504,7 @@ export default function DashboardV2() {
                         <button
                           type='button'
                           className='nv-btn-delete'
-                          onClick={() => console.log('Delete - disabled')}
-                          disabled
+                          onClick={() => deleteLead(lead.id)}
                         >
                           Delete
                         </button>
