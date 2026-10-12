@@ -1265,7 +1265,9 @@ export default function DashboardV2() {
                           <p className='nv-panel-item-meta'>{lead.personResponsible || 'Unassigned'}</p>
                         </div>
                         <div style={{ minWidth: '80px', textAlign: 'center' }}>
-                          {lead.region && <span className='nv-chip'><span className='nv-chip-dot' />{lead.region}</span>}
+                          {lead.region
+                            ? <span className='nv-chip'><span className='nv-chip-dot' />{lead.region}</span>
+                            : <span style={{ color: C.slateL, fontSize: '13px' }}>—</span>}
                         </div>
                         <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
                           <button
