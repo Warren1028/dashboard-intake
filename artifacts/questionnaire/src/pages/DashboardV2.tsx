@@ -925,7 +925,7 @@ export default function DashboardV2() {
     const isCompletedIntake = viewingIntakeForm.status === 'completed_intake';
     const isPendingIntake = viewingIntakeForm.status === 'pending_intake';
     const isSent = viewingIntakeForm.status === 'scheduled';
-    const showBothForms = isSent || isPendingIntake || isCompletedIntake;
+    const showBothForms = isSent || isPendingIntake || isCompletedIntake || viewingIntakeForm.status === 'submitted' || viewingIntakeForm.status === 'overdue';
 
     return (
       <div
@@ -2069,10 +2069,51 @@ export default function DashboardV2() {
                     {submittedStatusForms.length === 0
                       ? <div className='nv-kanban-empty'>No submitted forms</div>
                       : submittedStatusForms.map(form => (
-                        <div key={form.id} className='nv-panel-item'>
-                          <p className='nv-panel-item-name'>{form.name}</p>
-                          <p className='nv-panel-item-meta'>{form.client_email}</p>
-                          <p className='nv-panel-item-meta'>{form.personResponsible || 'Unassigned'}</p>
+                        <div key={form.id} className='nv-pipe-card' style={{ position: 'relative' }}>
+                          <button
+                            type='button'
+                            onClick={async () => {
+                              if (window.confirm('Delete this form? This cannot be undone.')) {
+                                const success = await deleteForm(form.id);
+                                if (success) {
+                                  setRealForms(prev => prev.filter(f => f.id !== form.id));
+                                }
+                              }
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: '8px',
+                              right: '8px',
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '1.2rem',
+                              cursor: 'pointer',
+                              color: '#999',
+                              padding: '0',
+                              width: '24px',
+                              height: '24px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                            title='Delete form'
+                          >
+                            ×
+                          </button>
+                          <h4 className='nv-pipe-name'>{form.name}</h4>
+                          <p className='nv-pipe-email'>{form.client_email || '—'}</p>
+                          <div className='nv-pipe-meta'>
+                            <span className='nv-chip'><span className='nv-chip-dot' />{form.personResponsible || 'Unassigned'}</span>
+                          </div>
+                          <div className='nv-pipe-actions'>
+                            <button
+                              type='button'
+                              className='nv-btn-view'
+                              onClick={() => setViewingIntakeForm(form)}
+                            >
+                              View
+                            </button>
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -2087,10 +2128,51 @@ export default function DashboardV2() {
                     {overdueForms.length === 0
                       ? <div className='nv-kanban-empty'>No overdue forms</div>
                       : overdueForms.map(form => (
-                        <div key={form.id} className='nv-panel-item'>
-                          <p className='nv-panel-item-name'>{form.name}</p>
-                          <p className='nv-panel-item-meta'>{form.client_email}</p>
-                          <p className='nv-panel-item-meta'>{form.daysOverdue} days overdue</p>
+                        <div key={form.id} className='nv-pipe-card' style={{ position: 'relative' }}>
+                          <button
+                            type='button'
+                            onClick={async () => {
+                              if (window.confirm('Delete this form? This cannot be undone.')) {
+                                const success = await deleteForm(form.id);
+                                if (success) {
+                                  setRealForms(prev => prev.filter(f => f.id !== form.id));
+                                }
+                              }
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: '8px',
+                              right: '8px',
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '1.2rem',
+                              cursor: 'pointer',
+                              color: '#999',
+                              padding: '0',
+                              width: '24px',
+                              height: '24px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                            title='Delete form'
+                          >
+                            ×
+                          </button>
+                          <h4 className='nv-pipe-name'>{form.name}</h4>
+                          <p className='nv-pipe-email'>{form.client_email || '—'}</p>
+                          <div className='nv-pipe-meta'>
+                            <span className='nv-chip'><span className='nv-chip-dot' />{form.daysOverdue} days overdue</span>
+                          </div>
+                          <div className='nv-pipe-actions'>
+                            <button
+                              type='button'
+                              className='nv-btn-view'
+                              onClick={() => setViewingIntakeForm(form)}
+                            >
+                              View
+                            </button>
+                          </div>
                         </div>
                       ))}
                   </div>
