@@ -47,8 +47,10 @@ export default function AppRouter() {
   useEffect(() => {
     // Check authentication status
     const checkAuth = async () => {
+      // Without Supabase config, show the login page. Showing the dashboard here would
+      // redirect to /login and reload forever.
       if (!supabase) {
-        setView('dashboard');
+        setView('login');
         return;
       }
 

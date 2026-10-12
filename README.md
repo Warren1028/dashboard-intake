@@ -46,8 +46,7 @@ api/                            Vercel functions
   send-to-clio-multipart.ts     forward a generated document to Make for Clio
   templates/                    .docx templates
 
-supabase_schema.sql             base tables
-supabase_rls_public_forms.sql   row-level security for public forms
+supabase_schema.sql             tables, indexes, and row-level security (see docs/SUPABASE.md)
 vercel.json                     build, output, rewrites
 ```
 
@@ -84,5 +83,5 @@ Anything prefixed `VITE_` is bundled into the browser, so it must not hold secre
 
 ## Security notes
 
-- Dashboard login uses Supabase Auth (email and password). Access to data depends on row-level security, so enable it on every table holding client data. See `supabase_rls_public_forms.sql`.
+- Dashboard login uses Supabase Auth (email and password). Access to data depends on row-level security, so enable it on every table holding client data. See `docs/SUPABASE.md`.
 - `AppRouter.tsx` contains a demo-mode check based on `localStorage`. Remove it before a client goes live.

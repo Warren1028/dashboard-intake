@@ -57,7 +57,7 @@ Templates are in `artifacts/questionnaire/.env.example`. Never commit `.env*` fi
 - `VITE_*` values are bundled into the browser. Never put secrets in them.
 - Server functions read the same names through `process.env`. Vercel sets both.
 
-Required: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `APP_URL`.
+Required: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `APP_URL`.
 Webhooks (frontend): `VITE_WEBHOOK_URL`, `VITE_SEND_FORM_EMAIL_WEBHOOK`, `VITE_REMINDER_WEBHOOK`, `VITE_EMAIL_CONFIRMATION_WEBHOOK`, `VITE_SEND_BACK_WEBHOOK`, `VITE_SEND_INQUIRY_FORM_WEBHOOK`, `VITE_SEND_INTAKE_FORM_WEBHOOK`, `VITE_CLIO_WEBHOOK`.
 Webhooks (server): `MAKE_CLIO_MULTIPART_WEBHOOK`.
 
@@ -87,8 +87,7 @@ artifacts/questionnaire/
   src/config/firm.config.ts     firm settings (edit per client)
   src/config/webhooks.ts        webhook URLs from env
 
-supabase_schema.sql           base tables
-supabase_rls_public_forms.sql row-level security for public form access
+supabase_schema.sql             tables, indexes, and row-level security (see docs/SUPABASE.md)
 vercel.json                   build, output, rewrites
 ```
 

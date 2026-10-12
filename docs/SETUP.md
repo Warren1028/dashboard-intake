@@ -21,9 +21,9 @@ pnpm install
 ## 3. Supabase
 
 1. Create a project.
-2. In the SQL editor, run `supabase_schema.sql`, then `supabase_rls_public_forms.sql`.
+2. Follow `docs/SUPABASE.md`: it covers the tables, policies, and the first admin account.
 3. Copy the project URL and anon key from *Project Settings → API*.
-4. Create the lawyer and admin accounts (see the `lawyers` table in `supabase_schema.sql`).
+4. Create the first admin account (section 7 of `docs/SUPABASE.md`).
 
 ## 4. Configure the firm
 
@@ -46,7 +46,7 @@ Deployed: add the same names in Vercel (section 7).
 | `VITE_SUPABASE_URL` | Yes | Frontend | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Frontend | Supabase anon key |
 | `SUPABASE_URL` | Yes | `api/*` | Same URL |
-| `SUPABASE_ANON_KEY` | Yes | `api/*` | Same key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | `api/*` | Service role key. Server only. Never prefix with `VITE_`. |
 | `APP_URL` | Yes | `api/send-back-form.js` | Public domain, for example `https://intake.wkointelligence.com` |
 | `VITE_WEBHOOK_URL` | Yes | Frontend | Make: completed form and CRM send |
 | `VITE_SEND_FORM_EMAIL_WEBHOOK` | Yes | Frontend | Make: form link email |

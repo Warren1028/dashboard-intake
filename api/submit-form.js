@@ -8,13 +8,13 @@ export default async function handler(req, res) {
   try {
     // Check env vars
     const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_ANON_KEY;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl) {
       return res.status(500).json({ error: 'SUPABASE_URL not set' });
     }
     if (!supabaseKey) {
-      return res.status(500).json({ error: 'SUPABASE_ANON_KEY not set' });
+      return res.status(500).json({ error: 'SUPABASE_SERVICE_ROLE_KEY not set' });
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
