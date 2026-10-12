@@ -753,7 +753,7 @@
 
 .nv-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
   margin-bottom: 20px;
   flex-shrink: 0;
@@ -1213,8 +1213,15 @@
 
 .nv-pipe-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 12px;
+}
+
+.nv-pipe-actions > button {
+  flex: 1 1 auto;
+  padding: 8px 12px;
+  text-align: center;
 }
 
 .nv-btn-edit {
