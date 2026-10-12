@@ -95,21 +95,6 @@ export default function AppRouter() {
           return;
         }
       }
-
-      // Check for demo mode first
-      const demoUserId = localStorage.getItem('supabase_user_id');
-      if (demoUserId === 'demo-user-id') {
-        // Demo mode - allow access with admin lawyer context
-        const urlFormId = params.get('formId');
-        if (urlFormId) {
-          setFormId(urlFormId);
-          setView('form');
-        } else {
-          setView('dashboard');
-        }
-        return;
-      }
-
       // Check authentication for dashboard/authenticated routes
       const { data: { session } } = await supabase.auth.getSession();
       const isAuthenticated = !!session?.user;

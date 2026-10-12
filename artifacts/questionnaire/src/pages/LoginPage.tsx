@@ -15,17 +15,6 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
     try {
-      // Demo mode for testing (remove in production)
-      const demoEmail = 'test@test.com';
-      const demoPassword = 'password123';
-
-      if (email.trim() === demoEmail && password.trim() === demoPassword) {
-        console.log('Demo mode activated');
-        localStorage.setItem('supabase_user_id', 'demo-user-id');
-        window.location.href = '/';
-        return;
-      }
-
       if (!supabase) {
         throw new Error('Supabase not configured');
       }
@@ -92,7 +81,7 @@ export default function LoginPage() {
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <img src={firm.images.logo} alt={firm.name} style={{ height: '80px', width: 'auto', marginBottom: '16px', maxWidth: '100%', objectFit: 'contain' }} />
+          {firm.images.logo ? <img src={firm.images.logo} alt={firm.name} style={{ height: '80px', width: 'auto', marginBottom: '16px', maxWidth: '100%', objectFit: 'contain' }} /> : <div style={{ fontFamily: C.fontHeading, fontSize: 22, fontWeight: 600, color: C.teal, marginBottom: 16 }}>{firm.name}</div>}
           <div style={{ fontSize: '12px', color: C.textL }}>
             Lawyer Dashboard Login
           </div>

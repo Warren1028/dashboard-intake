@@ -165,7 +165,7 @@ export default function ScreeningForm() {
           boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
         }}>
           <div style={{ textAlign: 'center', marginBottom: '32px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '16px', maxWidth: '100%' }} />
+            {firm.images.logo ? <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '16px', maxWidth: '100%' }} /> : <div style={{ fontFamily: C.fontHeading, fontSize: 22, fontWeight: 600, color: C.teal, marginBottom: 16 }}>{firm.name}</div>}
             <h1 style={{
               fontFamily: C.fontHeading,
               fontSize: '24px',

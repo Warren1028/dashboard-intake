@@ -23,7 +23,7 @@ export const firm = {
     secondaryLight: '#ddb96a',
   },
   images: {
-    logo: '/logo.png',             // file in artifacts/questionnaire/public/
+    logo: '',                       // e.g. '/logo.png' in public/. Empty shows the firm name as text.
     hero: '/hero.jpg',
   },
 

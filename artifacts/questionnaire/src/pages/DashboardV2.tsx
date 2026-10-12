@@ -1177,7 +1177,7 @@ export default function DashboardV2() {
     <div className='nv-app'>
       <aside className='nv-sidebar'>
         <div className='nv-brand' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '12px', maxWidth: '90%', objectFit: 'contain' }} />
+          {firm.images.logo ? <img src={firm.images.logo} alt={firm.name} style={{ height: '60px', width: 'auto', marginBottom: '12px', maxWidth: '90%', objectFit: 'contain' }} /> : <div style={{ fontFamily: C.fontHeading, fontSize: 22, fontWeight: 600, color: C.teal, marginBottom: 16 }}>{firm.name}</div>}
           <div className='nv-brand-sub' style={{ textAlign: 'center' }}>Client Intake</div>
           <div className='nv-brand-rule' />
         </div>

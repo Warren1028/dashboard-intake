@@ -25,20 +25,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        // Check for demo mode
-        const demoUserId = localStorage.getItem('supabase_user_id');
-        if (demoUserId === 'demo-user-id') {
-          setUser({ id: 'demo-user-id', email: 'test@test.com' });
-          setLawyer({
-            id: '5d136c20-1dc8-4b9f-a123-a01a56d763a0',
-            email: 'admin@lex-ops.io',
-            full_name: 'Sarah Southern',
-            is_admin: true,
-          });
-          setLoading(false);
-          return;
-        }
-
         if (!supabase) {
           setLoading(false);
           return;
