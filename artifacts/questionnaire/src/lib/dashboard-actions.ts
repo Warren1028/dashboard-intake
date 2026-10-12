@@ -392,7 +392,7 @@ export async function sendIntakeForm(formId: string) {
     const { error } = await supabase
       .from('forms')
       .update({
-        status: 'pending_intake',
+        status: 'scheduled',
         progress_pct: 0,
         last_accessed: new Date().toISOString(),
       })

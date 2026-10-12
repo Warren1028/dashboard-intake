@@ -56,7 +56,11 @@ export default async function handler(req, res) {
 
     // Determine new status based on step completion
     let newStatus = form.status;
-    if (step === 14 && form.status === 'pending_intake') {
+    // First save from the client moves a Sent form to In Progress
+    if (form.status === 'scheduled') {
+      newStatus = 'pending_intake';
+    }
+    if (step === 14 && (form.status === 'pending_intake' || form.status === 'scheduled')) {
       // Form fully completed
       newStatus = 'completed_intake';
     }

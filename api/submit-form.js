@@ -44,9 +44,8 @@ export default async function handler(req, res) {
     let newStatus = form.status;
     console.log('DEBUG:', { form_type, current_status: form.status, newStatus_before: newStatus });
 
-    if (form_type === 'inquiry' && form.status === 'appointment_sent') {
-      newStatus = 'scheduled';
-    } else if (form_type === 'intake' && form.status === 'pending_intake') {
+    // Answering the inquiry keeps the form in Pending until the lawyer sends the intake form
+    if (form_type === 'intake' && form.status === 'pending_intake') {
       newStatus = 'completed_intake';
     }
 

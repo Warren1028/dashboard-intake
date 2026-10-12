@@ -1056,15 +1056,11 @@ export default function DashboardV2() {
                     </div>
                   </div>
                 </>
-              ) : (
-                <div style={{ padding: '12px', border: '1px dashed #ddd', borderRadius: '4px', background: '#fafafa', color: '#999', fontSize: '12px' }}>
-                  Intake form will be available after appointment is scheduled
-                </div>
-              )}
+              ) : null}
             </div>
           </div>
 
-          {viewingIntakeForm.status === 'scheduled' && (
+          {viewingIntakeForm.status === 'appointment_sent' && (
             <div className='nv-modal-actions'>
               <button
                 className='nv-btn-qualify'
@@ -1072,13 +1068,13 @@ export default function DashboardV2() {
                   const success = await sendIntakeForm(viewingIntakeForm.id);
                   if (success) {
                     const intakeLink = `${window.location.origin}/intake-form?lead_id=${viewingIntakeForm.id}`;
-                    // Update local state and refresh
+                    // Move to the Sent column
                     setRealForms(prev => prev.map(f =>
                       f.id === viewingIntakeForm.id
-                        ? { ...f, status: 'pending_intake' }
+                        ? { ...f, status: 'scheduled' }
                         : f
                     ));
-                    setViewingIntakeForm(prev => ({ ...prev, status: 'pending_intake' }));
+                    setViewingIntakeForm(prev => ({ ...prev, status: 'scheduled' }));
                     setGeneratedLink(intakeLink);
                     setShowLinkModal(true);
                   }
