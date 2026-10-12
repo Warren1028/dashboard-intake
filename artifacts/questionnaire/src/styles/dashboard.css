@@ -753,7 +753,7 @@
 
 .nv-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-bottom: 20px;
   flex-shrink: 0;
@@ -817,8 +817,8 @@
 
 .nv-overview-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
   flex: 1;
   min-height: 0;
   align-items: stretch;
