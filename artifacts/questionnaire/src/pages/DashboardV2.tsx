@@ -23,32 +23,6 @@ import '../styles/dashboard.css';
 const ScreeningFormV2 = lazy(() => import('./ScreeningFormV2'));
 
 // Constants
-const LAWYERS = ['Sarah Southern'];
-
-// Mock data
-const pendingLeads = [
-  { id: '1', name: 'John Smith', email: 'john@example.com', leadType: 'Direct', region: 'NSW', referralType: 'Accountant', personResponsible: 'Colin Long' },
-  { id: '2', name: 'Sarah Johnson', email: 'sarah@example.com', leadType: 'Referral', region: 'VIC', referralType: 'Existing Client', personResponsible: 'Emma Mathieson' },
-  { id: '3', name: 'Mike Brown', email: 'mike@example.com', leadType: 'Direct', region: 'QLD', referralType: 'Google', personResponsible: 'Katrina Elizabeth Brown' },
-];
-
-const inProgressForms = [
-  { id: 'f1', name: 'Alice Chen', progress: 45, personResponsible: 'Sarah Tait', daysOverdue: 0 },
-  { id: 'f2', name: 'Bob Wilson', progress: 78, personResponsible: 'Tyler Smith', daysOverdue: 0 },
-];
-
-const completedForms = [
-  { id: 'f3', name: 'Carol Davis', personResponsible: 'Vicki Baker', lastAction: '2 days ago' },
-];
-
-const submittedForms = [
-  { id: 'f4', name: 'David Miller', personResponsible: 'Colin Long', submittedAt: '1 week ago' },
-];
-
-const overdueForms = [
-  { id: 'f5', name: 'Emma White', daysOverdue: 15, personResponsible: 'Emma Mathieson', progress: 25 },
-  { id: 'f6', name: 'Frank Green', daysOverdue: 8, personResponsible: 'Katrina Elizabeth Brown', progress: 40 },
-];
 
 export default function DashboardV2() {
   const { user, lawyer, loading, logout } = useAuth();
@@ -81,6 +55,14 @@ export default function DashboardV2() {
 
   // Send back modal
   const [showSendBackModal, setShowSendBackModal] = useState(false);
+  const [lawyerNames, setLawyerNames] = useState<string[]>([]);
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.from('lawyers').select('full_name').order('full_name').then(({ data }: any) => {
+      setLawyerNames((data || []).map((l: any) => l.full_name));
+    });
+  }, []);
+
   const [sendBackFormId, setSendBackFormId] = useState<string | null>(null);
 
   // Document generation
@@ -1221,7 +1203,7 @@ export default function DashboardV2() {
       <div className='nv-main'>
         <header className='nv-topbar'>
           <div>
-            <p className='nv-topbar-eyebrow'>{firm.name}</p>
+            <p className='nv-topbar-eyebrow' style={{ color: '#fff' }}>{firm.name}</p>
             <h1 className='nv-topbar-title'>{pageTitle}</h1>
             <p className='nv-topbar-desc'>{pageDesc}</p>
           </div>
@@ -1414,7 +1396,7 @@ export default function DashboardV2() {
                   onChange={(e) => setPendingLeadsPersonFilter(e.target.value)}
                 >
                   <option value="">All Lawyers</option>
-                  {LAWYERS.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
+                  {lawyerNames.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
                 </select>
 
                 <select
@@ -1621,7 +1603,7 @@ export default function DashboardV2() {
                   onChange={(e) => setCompletedPersonFilter(e.target.value)}
                 >
                   <option value="">All Lawyers</option>
-                  {LAWYERS.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
+                  {lawyerNames.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
                 </select>
 
                 <select
@@ -1785,7 +1767,7 @@ export default function DashboardV2() {
                   onChange={(e) => setQualifiedLeadsPersonFilter(e.target.value)}
                 >
                   <option value="">All Lawyers</option>
-                  {LAWYERS.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
+                  {lawyerNames.map(lawyer => <option key={lawyer} value={lawyer}>{lawyer}</option>)}
                 </select>
                 <select
                   className='nv-select'

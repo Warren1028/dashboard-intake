@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import '../styles/auth.css';
 
-const LAWYERS = ['Colin Long', 'Emma Mathieson', 'Katrina Elizabeth Brown', 'Sarah Tait', 'Tyler Smith', 'Vicki Baker'];
 
 export default function SignUp() {
+  const [lawyerNames, setLawyerNames] = useState<string[]>([]);
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.from('lawyers').select('full_name').order('full_name').then(({ data }: any) => {
+      setLawyerNames((data || []).map((l: any) => l.full_name));
+    });
+  }, []);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [selectedLawyer, setSelectedLawyer] = useState('');
@@ -125,7 +132,7 @@ export default function SignUp() {
               disabled={loading}
             >
               <option value=''>-- Choose a name --</option>
-              {LAWYERS.map((lawyer) => (
+              {lawyerNames.map((lawyer) => (
                 <option key={lawyer} value={lawyer}>
                   {lawyer}
                 </option>

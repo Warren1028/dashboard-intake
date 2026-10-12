@@ -1,9 +1,8 @@
-import { useState, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
+import { useState, useEffect, type ChangeEvent, type FormEvent, type ReactNode } from 'react';
 import { supabase } from '../lib/supabase';
 
 type ContactType = 'person' | 'firm';
 
-const LAWYERS = ['Sarah Southern'];
 const BILLING_TYPES = ['Fixed Fee', 'Fixed Fee Per Appearance', 'Time Based', 'Contingency ($)', 'Contingency (%)', 'Not Billable'];
 const REGIONS = ['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT'];
 
@@ -14,6 +13,14 @@ export interface ScreeningFormV2Props {
 }
 
 export default function ScreeningFormV2({ lawyerId, onSubmit, onClose }: ScreeningFormV2Props) {
+  const [lawyerNames, setLawyerNames] = useState<string[]>([]);
+  useEffect(() => {
+    if (!supabase) return;
+    supabase.from('lawyers').select('full_name').order('full_name').then(({ data }: any) => {
+      setLawyerNames((data || []).map((l: any) => l.full_name));
+    });
+  }, []);
+
   const [contactType, setContactType] = useState<ContactType>('person');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -267,7 +274,7 @@ export default function ScreeningFormV2({ lawyerId, onSubmit, onClose }: Screeni
         <h3 className='nv-screen-section-title'>Lead Details</h3>
         {renderField('Lead Type', renderTextInput(leadType, (v) => setLead('leadType', v), 'e.g. Estate Planning, Family Law'))}
         {renderField('Region (Australia)', renderSelect(region, (v) => setLead('region', v), REGIONS))}
-        {renderField('Person Responsible', renderSelect(personResponsible, (v) => setLead('personResponsible', v), LAWYERS))}
+        {renderField('Person Responsible', renderSelect(personResponsible, (v) => setLead('personResponsible', v), lawyerNames))}
         {renderField('Billing Type', renderSelect(billingType, (v) => setLead('billingType', v), BILLING_TYPES))}
       </section>
     );
